@@ -110,23 +110,63 @@ Two workable directions — design both and compare:
 
 Whichever wins, the distinction must stay legible at 390px without relying on a label.
 
-### Palette — open
+### Visual direction — decided
 
-Not yet decided. The previous site's scheme (red `#E13124` on dark navy) is **not** being carried
-forward. Rules that hold whatever wins:
+**Archive, with streetwear typographic confidence.** Neutral toward the product, characterful in
+the craft.
 
-- **One accent plus a neutral ramp.** The palette's job is to frame wildly heterogeneous, high
-  chroma artwork — album covers, film stills, character art all arrive loud. The chrome is a
-  stage, not a competitor.
+*References: Criterion Collection packaging, Blue Note sleeves, and Dieter Rams catalogues for the
+framing; contemporary streetwear drop pages (Palace, Corteiz, Aries) for scale and density.*
+
+Validated on both loud band artwork and soft animated-film artwork — it holds both, which was the
+test that mattered.
+
+Elements:
+
+- Warm off-white background running edge to edge; the product sits directly on it with no card or
+  frame, and the header shares the same continuous surface
+- Near-black ink, with hairline rules dividing sections
+- **Product title in an oversized display serif**, large enough to crop or run edge to edge
+- Small letterspaced monospace metadata — catalogue number, edition, material, collection
+- Thin vertical marginalia up the left and right edges — release date, edition number, "worldwide"
+- Large bold step numerals (`01` / `02` / `03`) against clear medium-weight labels
+- Sticky add-to-cart bar in near-black, with price and a trailing arrow
+
+**Signature move: the product overlaps the title.** The garment sits on top of the oversized
+display type rather than beneath it. It creates depth, reclaims vertical space, and it is the
+brand name made literal. This is the thing to protect when the design gets translated to code.
+
+**Swatches take their colours from the product artwork**, not from a fixed brand palette — so the
+page recolours itself per product and the controls always relate to what is on screen.
+
+The earlier direction that was rejected: heavy screenprint / riso texture. The structural patterns
+discovered in that exploration were kept; the aesthetic was not.
+
+### Palette — decided
+
+| Token | Value | Use |
+|---|---|---|
+| `surface` | `#F7F5F1` | Page + product backdrop — the seamless surface |
+| `surface-raised` | `#EFECE6` | Sheets, filter panels |
+| `border` | `#DAD5CC` | Hairline rules, chip outlines |
+| `text-muted` | `#7A736A` | Metadata, character counter |
+| `text` | `#33302B` | Body |
+| `ink` | `#12110F` | Headings, display type, add-to-cart bar |
+
+**No fixed brand accent.** This resolved itself — the winning direction doesn't need one. Selection
+states are expressed through ink weight and outline; all colour on the page comes from the product
+artwork and from swatches sampled out of it. This is the purest form of "the chrome is a stage."
+
+Rules that still hold:
+
 - **Never colour-code the categories.** Music and screen are distinguished by proportion and
-  texture so the artwork keeps the colour. A category colour layer fights the product imagery.
-- **Settle it on the PDP, not the homepage** — see the page priority below.
-- **Check the accent at small sizes.** On the PDP the accent lands on chips, swatches, and the
-  cart bar, not big hero fills. A colour that sings in a banner can fail at 14px. Verify contrast
-  against the real background before committing; this is where the old red was quietly failing.
-- **Test candidates on licensed merch, not just custom band tees.** A strongly opinionated
-  direction can look superb framing a custom screenprinted tee and fight a glossy licensed film
-  poster or flat vivid anime merch. Compare directions on a licensed product before choosing.
+  texture so the artwork keeps the colour.
+- **Verify selection states read clearly without colour.** With no accent, "selected" rests on
+  outline and fill weight alone — check the size selector and swatch rings on a real device. If
+  they test poorly, introduce a single accent rather than weakening the neutral system.
+- The previous site's scheme (red `#E13124` on dark navy) is **not** carried forward.
+- Dark backgrounds are ruled out: black garments are a core product and disappear against them,
+  which also breaks the seamless background pattern.
 
 ---
 
