@@ -145,12 +145,17 @@ tap targets sized for real hands, and image weight kept low enough for mobile da
 
 In priority order. **Each needs a mobile comp; desktop is secondary.**
 
-1. **Homepage — three variants** at different split strengths: fully unified grid, subtly
-   accented, and strongly split. Seeing them side by side settles the direction.
+1. **Personalization PDP — in both skins. Start here, and settle the art direction here.**
+   This is the highest-value page in the store, the hardest to build, and the one most customers
+   actually see: traffic from paid social, Shopping, and search deep-links straight to product
+   pages, so a large share of sessions never load the homepage at all. It is also the strictest
+   test of a palette — the chrome has to recede behind a live canvas preview and still read as a
+   brand, and the personalization controls must feel like a *tool* without competing with the
+   design being previewed. A palette that works here works everywhere. The preview is canvas-based
+   and updates live as the customer types or picks a variant.
 
-2. **Personalization PDP — in both skins.** Highest-value page in the store and the hardest to
-   build. The preview is canvas-based and updates live as the customer types or picks a variant.
-   Do not skip this in favour of easier pages.
+2. **Homepage — three variants** at different split strengths: fully unified grid, subtly
+   accented, and strongly split. Design after the PDP has set the direction.
 
 3. **Collection page, twice** — once for a music IP, once for a screen IP. Same layout, different
    accent. This is the real test of whether the crop-ratio system holds.
