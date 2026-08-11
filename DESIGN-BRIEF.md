@@ -163,6 +163,14 @@ hold regardless of which palette or art direction wins.
 
 ### Locked layout patterns
 
+**The preview is the product image.** The personalization preview occupies the main product image
+slot — it is not a separate panel elsewhere on the page. Other product shots (detail, fabric, model,
+back) become additional gallery slides behind it, with the live preview always slide one.
+
+Two separate elements would split the customer's attention across two places and double the
+vertical space before they reach the controls on mobile. The seamless background below only works
+because there is a single product area.
+
 **Seamless product background.** The product image sits directly on the page background with no
 card, container, or frame — the header, the product area, and the page share one continuous
 surface. This buys vertical space, but the real gain is perceptual: removing the boundary makes
