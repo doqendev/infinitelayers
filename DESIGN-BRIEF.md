@@ -94,11 +94,56 @@ This solves the main risk of a mixed catalogue — that the grid reads as *rando
 *curated*. With the ratio system, a mixed scroll has visual rhythm and looks deliberate.
 Without it, mixing looks like an unsorted inventory dump.
 
+### Mobile adaptation of the ratio system — required
+
+The ratio system does **not** survive a naive port to mobile. At a 390px viewport, a 2.39:1 crop
+is roughly 163px tall against a 1:1 crop at 390px. In a two-up mobile grid the screen items look
+shrunken and weak beside the music ones, which inverts the intended balance.
+
+Two workable directions — design both and compare:
+
+- **Single-column feed.** Full-width cards stacked, alternating 1:1 and 2.39:1. The ratio
+  difference becomes deliberate scroll rhythm rather than a size mismatch. Reads like a social
+  feed, which suits the audience.
+- **Compress the ratio on small screens.** Screen items shift 2.39:1 → 16:9 or 3:2 below the
+  tablet breakpoint, keeping the two-up grid viable. Category still reads, imbalance disappears.
+
+Whichever wins, the distinction must stay legible at 390px without relying on a label.
+
 ---
+
+## Mobile first — not a follow-up pass
+
+**The majority of traffic is mobile.** Design every screen at 390px first and let desktop be the
+adaptation, not the other way round. A desktop comp that gets "made responsive" afterwards will
+fail on the pages that matter most here.
+
+Every page in the list below needs a mobile comp. Where only one can be produced, produce the
+mobile one.
+
+The hard mobile problems, in order of difficulty:
+
+1. **The personalization PDP.** This is the crux of the whole build. The customer needs to see a
+   live canvas preview *while* typing custom text — but the on-screen keyboard covers roughly half
+   the viewport the moment the field is focused. If the preview sits below the input, it is
+   invisible at the exact moment it matters. Solutions to explore: a sticky preview pinned above
+   the fold with the controls scrolling beneath it, a preview that docks to a compact strip while
+   editing, or a full-screen preview mode with a floating edit control. **This one page justifies
+   several variants on its own.**
+2. **Gift-finder filters.** Budget, occasion, and recipient can't be a desktop sidebar. They need a
+   bottom sheet or a horizontally scrolling chip row, with active filters visible without
+   reopening the panel.
+3. **Variant + personalization together.** Size, colour, *and* custom text on one small screen,
+   without the page becoming an endless scroll before add-to-cart.
+4. **The bundle builder.** Assembling three items into one gift is inherently multi-step; on mobile
+   it likely needs a staged flow rather than a single dense page.
+
+Also required throughout: sticky add-to-cart on product pages, thumb-reachable primary actions,
+tap targets sized for real hands, and image weight kept low enough for mobile data.
 
 ## Pages to design
 
-In priority order.
+In priority order. **Each needs a mobile comp; desktop is secondary.**
 
 1. **Homepage — three variants** at different split strengths: fully unified grid, subtly
    accented, and strongly split. Seeing them side by side settles the direction.
@@ -128,8 +173,11 @@ In priority order.
 - **Multi-language, multi-market.** The current store ships 55 locale files with market contexts
   for Spain, France, Australia, Canada, and international. Layouts must survive text expansion
   and varying currency formats.
+- **Mobile is the primary viewport.** See the mobile section above — this is a constraint on every
+  page, not a later pass.
 - **The personalization preview is live and canvas-based** — it re-renders as the customer types
-  or changes variant. Design it as an interactive surface, not a static product image.
+  or changes variant. Design it as an interactive surface, not a static product image. On mobile
+  it must stay visible while the keyboard is open.
 - **Q4 gifting seasonality.** Gift-forward merchandising has to be switchable without a redesign.
 - Scope items that a pure merch store doesn't need: gift wrapping, gift notes, delivery-by date,
   gift cards.
