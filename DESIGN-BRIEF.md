@@ -110,6 +110,24 @@ Two workable directions — design both and compare:
 
 Whichever wins, the distinction must stay legible at 390px without relying on a label.
 
+### Palette — open
+
+Not yet decided. The previous site's scheme (red `#E13124` on dark navy) is **not** being carried
+forward. Rules that hold whatever wins:
+
+- **One accent plus a neutral ramp.** The palette's job is to frame wildly heterogeneous, high
+  chroma artwork — album covers, film stills, character art all arrive loud. The chrome is a
+  stage, not a competitor.
+- **Never colour-code the categories.** Music and screen are distinguished by proportion and
+  texture so the artwork keeps the colour. A category colour layer fights the product imagery.
+- **Settle it on the PDP, not the homepage** — see the page priority below.
+- **Check the accent at small sizes.** On the PDP the accent lands on chips, swatches, and the
+  cart bar, not big hero fills. A colour that sings in a banner can fail at 14px. Verify contrast
+  against the real background before committing; this is where the old red was quietly failing.
+- **Test candidates on licensed merch, not just custom band tees.** A strongly opinionated
+  direction can look superb framing a custom screenprinted tee and fight a glossy licensed film
+  poster or flat vivid anime merch. Compare directions on a licensed product before choosing.
+
 ---
 
 ## Mobile first — not a follow-up pass
@@ -126,10 +144,7 @@ The hard mobile problems, in order of difficulty:
 1. **The personalization PDP.** This is the crux of the whole build. The customer needs to see a
    live canvas preview *while* typing custom text — but the on-screen keyboard covers roughly half
    the viewport the moment the field is focused. If the preview sits below the input, it is
-   invisible at the exact moment it matters. Solutions to explore: a sticky preview pinned above
-   the fold with the controls scrolling beneath it, a preview that docks to a compact strip while
-   editing, or a full-screen preview mode with a floating edit control. **This one page justifies
-   several variants on its own.**
+   invisible at the exact moment it matters. **Solved — see "The keyboard solution" below.**
 2. **Gift-finder filters.** Budget, occasion, and recipient can't be a desktop sidebar. They need a
    bottom sheet or a horizontally scrolling chip row, with active filters visible without
    reopening the panel.
@@ -140,6 +155,73 @@ The hard mobile problems, in order of difficulty:
 
 Also required throughout: sticky add-to-cart on product pages, thumb-reachable primary actions,
 tap targets sized for real hands, and image weight kept low enough for mobile data.
+
+## Product page patterns — decided
+
+These came out of an early mobile PDP exploration. They are **structural, not stylistic** — they
+hold regardless of which palette or art direction wins.
+
+### Locked layout patterns
+
+**Seamless product background.** The product image sits directly on the page background with no
+card, container, or frame — the header, the product area, and the page share one continuous
+surface. This buys vertical space, but the real gain is perceptual: removing the boundary makes
+the eye read the whole upper screen as *product* rather than as a card inside a page. On mobile,
+where vertical space is the scarcest resource, this is the highest-leverage layout move available.
+
+> **Implementation constraint:** every product image must sit on that exact background tone or be
+> transparent, **and the personalization canvas must paint the same value.** If the canvas renders
+> `#FFFFFF` against a warm page background, a hard rectangle appears around the hero product. Easy
+> to miss, looks broken.
+
+**Sticky add-to-cart bar.** Persistent bar pinned to the bottom holding price and the primary
+action. Always visible, thumb-reachable, price adjacent to the action. Must hide while the
+keyboard is open — see below.
+
+### Customization flow patterns
+
+- **Numbered steps** (`1. Your text → 2. Style → 3. Colour → 4. Size`). Converts an intimidating
+  configurator into a checklist and reduces abandonment.
+- **Live character counter** on the text field (e.g. `9 / 20`). Prevents the failure where a
+  customer types 40 characters and the preview turns to mush — it protects the core feature.
+- **Naming the controls in the product's own language** rather than generic ecommerce terms. If
+  the winning direction has a material story, the colour selector should speak it.
+
+### The keyboard solution
+
+The single most important interaction in the store, and the one most likely to be got wrong.
+
+**Collapse and zoom to the print area.** Do not try to keep the whole product visible while
+editing. On input focus, the preview collapses to a compact band pinned at the top and zooms into
+the *design region* — dropping sleeves, hem, and background.
+
+That reframing is what makes it work: a whole garment at 120px tall is useless, but the print area
+at 120px is perfectly legible, and it is the only thing the customer cares about while typing.
+Roughly 100–140px fits above any keyboard.
+
+1. Input focused → preview animates to compact, cropped to the design region
+2. Customer types → canvas re-renders live in the strip
+3. Blur or "Done" → preview expands back to the full garment
+
+Mechanics that matter:
+
+- **Use `position: sticky`, not `position: fixed`.** This matters more than anything else here.
+  Fixed elements on iOS Safari drift or hide behind the keyboard; a sticky element inside the
+  scroll container survives keyboard-induced scrolling predictably.
+- **Detect the keyboard with the `visualViewport` API** — the only reliable signal.
+  `window.innerHeight - visualViewport.height > 150` is a workable threshold.
+- **Set `interactive-widget=resizes-content`** in the viewport meta tag so layout resizes
+  predictably when the keyboard appears.
+- **Use `dvh`, not `vh`**, for any full-height measurement.
+- **Hide the sticky add-to-cart bar while editing.** Otherwise it fights the keyboard for space or
+  floats over it on iOS. Nobody adds to cart mid-typing, so this costs nothing.
+
+Test on **real iOS Safari**. Android Chrome handles all of this gracefully and will give false
+confidence.
+
+This is stack-agnostic — the layout is CSS and `visualViewport`. React makes the collapse/expand
+state tidier, but it is very buildable in vanilla JS on a Liquid theme. **Do not let this decide
+the stack.**
 
 ## Pages to design
 
