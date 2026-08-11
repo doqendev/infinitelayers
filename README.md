@@ -4,8 +4,12 @@ Ground-up rebuild of the Infinite Layers storefront.
 
 ## Status
 
-Pre-implementation. The stack is **not yet chosen** — see below. This repo was reset to a
-clean base on 2026-08-11 so the decision isn't pre-empted by scaffolding.
+Pre-implementation. This repo was reset to a clean base on 2026-08-11 so the stack decision
+isn't pre-empted by scaffolding.
+
+- **Positioning and IA — decided.** See [DESIGN-BRIEF.md](DESIGN-BRIEF.md).
+- **Stack — open.** See below.
+- **UI — pending.** Being designed in Claude Design from the brief.
 
 ## Stack decision (open)
 
