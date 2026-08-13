@@ -235,6 +235,27 @@ keyboard is open — see below.
 - **Naming the controls in the product's own language** rather than generic ecommerce terms. If
   the winning direction has a material story, the colour selector should speak it.
 
+### The product stage must be product-agnostic
+
+The preview surface is **one shell driven by per-product data**, never a layout per product type.
+It has to hold a tee (print sits on the object), an art print (print fills the object), a keychain
+(small object, small print plate), and a desk sign (the text *is* the object).
+
+Two values, stored as product metafields and read by the section:
+
+- **Object aspect ratio** — the shape of the product itself
+- **Print-area box** — `x / y / width / height` as percentages of the object box
+
+The step list is likewise product-driven. Step 01 (your text) is near-universal; everything after
+is product-dependent — `SIZE` for apparel, `FORMAT` for prints, `FINISH` for keychains,
+`PLACEMENT` where it applies. Each step is a section block.
+
+> **Why this matters:** the current live theme hardcodes a snippet per band —
+> `metallica-logo-preview.liquid` and roughly fourteen siblings. That is why 21 pull requests
+> about individual band previews are still open: every fix has to be made fifteen times, so it
+> never gets made once. If any product type needs bespoke positioning, the data model is wrong —
+> fix it in the design rather than inherit the problem.
+
 ### The keyboard solution
 
 The single most important interaction in the store, and the one most likely to be got wrong.
@@ -303,8 +324,13 @@ In priority order. **Each needs a mobile comp; desktop is secondary.**
 
 ## Constraints
 
-- **Shopify storefront.** The stack (Hydrogen/React vs Liquid theme) is not yet chosen — the
-  design should not depend on exotic runtime behaviour that only one option supports.
+- **Stack — decided: Liquid, a normal Shopify Online Store 2.0 theme.** Not Hydrogen. This keeps
+  the theme editor, the app ecosystem (the live store runs Judge.me reviews), markets and
+  translations, and seasonal merchandising without a redesign. Steps and modules should therefore
+  be authored as **section blocks**, so merchandisers compose pages per template without code.
+- **Personalization is not apparel-only, and not universal.** Keychains, desk signs, nameplates and
+  art prints all personalize; some products don't personalize at all. Every personalization
+  surface must be product-agnostic and degrade cleanly when there is nothing to personalize.
 - **Multi-language, multi-market.** The current store ships 55 locale files with market contexts
   for Spain, France, Australia, Canada, and international. Layouts must survive text expansion
   and varying currency formats.
