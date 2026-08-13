@@ -256,6 +256,55 @@ is product-dependent — `SIZE` for apparel, `FORMAT` for prints, `FINISH` for k
 > never gets made once. If any product type needs bespoke positioning, the data model is wrong —
 > fix it in the design rather than inherit the problem.
 
+### The generated-object preview — built and proven
+
+The desk-plate preview is built and working. Not a mockup: a real pipeline, end to end.
+
+**Construction.** Letters get a round-joined stroke; letters + stroke extrude to form the base;
+the letters alone extrude on top of it. Round corners on the base, sharp font corners on the face,
+a flat 90° step between them.
+
+**Locked parameters** — everything else derives from these:
+
+| | |
+|---|---|
+| Stroke (round join) | **4 mm** |
+| Base extrude | **14 mm** |
+| Face extrude | **2 mm** |
+| Scale reference | 1 em = 50 mm |
+| Camera | orthographic, 26° from vertical |
+| Print bed | 250 × 250 mm, ~230 mm working width |
+| Max letters | 12 |
+
+**Pipeline:** `fontTools` (outlines) → `shapely.buffer(4, join_style=round)` (base) → Blender
+(extrude, light, render) → sprite atlas → 2D `drawImage` compositing in the page. No 3D library
+ships; three.js and Blender are authoring tools only.
+
+**Two findings that shaped it:**
+
+- *Per-letter sprites are exact, not an approximation.* A round buffer is a Minkowski sum, and
+  Minkowski sums distribute over union — `(A ∪ B) ⊕ D ≡ (A ⊕ D) ∪ (B ⊕ D)`. Measured across five
+  letter pairs: zero difference. So bases can be baked per glyph and overlapped.
+- *The base is what makes the sign one object.* For `WilliaÌ`, the faces are 7 separate pieces and
+  the base is 1. The 4 mm stroke is what fuses the letters into a single manufacturable piece —
+  the structural reason the stroke exists, and why 4 mm is a floor as well as a look.
+
+**Capitalisation** follows the live IL theme: first letter uppercase, middle lowercase, last letter
+remapped to its terminal form in the Latin-1 range (`A→À` … `Z→Ù`). `William` shapes to `WilliaÌ`.
+
+### Outstanding on the preview
+
+1. **Layer-order bug — the next thing to fix.** Sprites currently bake base and face together, so
+   drawing glyph *n* lays its base over glyph *n−1*'s face wherever letters overlap. On the real
+   object all bases are coplanar and all faces are coplanar; nothing is "on top". **Fix:** bake
+   base-only and face-only sprites, then composite in two passes — every base, then every face.
+2. **Bake neutral grey and tint at runtime** (multiply composite) in the same pass. Collapses
+   colourways: 2 layers × 2 views = 4 atlases supporting unlimited colours, instead of one set per
+   colourway. Also removes the double-blended antialias seam where bases overlap.
+3. **Spike trim.** The `W`/`M` spikes are the typeface, not a parameter — they need a rectangle
+   intersection before the offset so the cut end gets its own rounded cap. One parameter,
+   `spike_depth_mm`.
+
 ### The keyboard solution
 
 The single most important interaction in the store, and the one most likely to be got wrong.
